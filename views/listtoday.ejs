@@ -1,0 +1,56 @@
+<%- include ('header.ejs'); -%>
+<%- include ('sidebar.ejs'); -%>
+
+<body>
+<div class="container">
+<h2><%= title %></h2>
+<h1>hello</h1>
+
+
+<table class="table table-dark table-striped">
+<thead>
+<tr>
+<th>select</th>
+<th>Nom de fichier</th>
+<th>code</th>
+<th>Entreprise</th>
+<th>Email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><input type="checkbox" name="type" value=<%=client.code%>></td>
+<%  items.forEach(function(item){ %>
+<td><%= item %></td>
+<% }); %>
+<% clients.forEach(function(client){ %>
+<td><%= client.code %></td>
+<td><%= client.nomCl %></td>
+<td><%= client.email %></td>
+<% }); %>
+</tr>
+</tbody>
+</table>
+<button  onclick="myFunction()">Renvoyer </button>
+
+</div>
+<script>
+    function myFunction() {
+        let listTask = []
+        $("input:checkbox[name=type]:checked").each(function(){
+            listTask.push($(this).val());
+           
+        });
+        console.log(listTask)
+        fetch('/renvoyer', {
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ 
+                "tasks" : listTask
+            }),      
+        })
+        window.location.reload();
+    }
+    </script>
+</body>
+</html>
